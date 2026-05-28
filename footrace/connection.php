@@ -5,5 +5,14 @@ $username = "root";
 $password= "";
 $database= "footrace";
 
-$connection = new PDO("mysql:host=$address;port=$port;dbname=$database",
-                      $username, $password);
+$connection;
+function OpenConnection()
+{
+    global $address, $port, $database, $username, $password, $connection;
+    $connection = new PDO("mysql:host=$address;port=$port;dbname=$database",
+                  $username, $password);
+}
+function CloseConnection() {
+    global $connection;
+    $connection = null;
+}
