@@ -24,7 +24,8 @@ $data = $country_viewer->Select(); ?>
                 <td><label>Származási ország:</label></td>
                 <td><select name="country">
                     <?php foreach($data as $country) { ?>
-                        <option value="<?=$country->code?>">
+                        <option value="<?=$country->code?>"
+                            <?=$country->code === "US" ? "selected" : ""?>>
                             <?=$country->name?>
                         </option>
                     <?php } ?>

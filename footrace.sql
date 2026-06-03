@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Máj 28. 09:39
+-- Létrehozás ideje: 2026. Jún 03. 11:48
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -242,6 +242,72 @@ CREATE TABLE `results` (
   `timespan` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `results`
+--
+
+INSERT INTO `results` (`runner_id`, `timespan`) VALUES
+(1, 1423),
+(2, 1850),
+(3, 987),
+(4, 2100),
+(5, 1354),
+(6, 1640),
+(7, 1922),
+(8, 750),
+(9, 2209),
+(10, 1580),
+(11, 1106),
+(12, 1730),
+(13, 2358),
+(14, 890),
+(15, 1461),
+(16, 2050),
+(17, 1227),
+(18, 1780),
+(19, 644),
+(20, 2150),
+(21, 1533),
+(22, 1020),
+(23, 1976),
+(24, 1310),
+(25, 2382),
+(26, 850),
+(27, 1695),
+(28, 2240),
+(29, 1159),
+(30, 1400),
+(31, 1903),
+(32, 780),
+(33, 2087),
+(34, 1250),
+(35, 1602),
+(36, 1820),
+(37, 954),
+(38, 2120),
+(39, 1488),
+(40, 680),
+(41, 1751),
+(42, 2300),
+(43, 1056),
+(44, 1380),
+(45, 1952),
+(46, 820),
+(47, 2029),
+(48, 1120),
+(49, 1557),
+(50, 1880),
+(51, 723),
+(52, 2250),
+(53, 1446),
+(54, 1990),
+(55, 1281),
+(56, 1660),
+(57, 928),
+(58, 2180),
+(59, 1324),
+(60, 1510);
+
 -- --------------------------------------------------------
 
 --
@@ -318,7 +384,33 @@ INSERT INTO `runners` (`id`, `name`, `country_code`) VALUES
 (57, 'Ji-min Park', 'KR'),
 (58, 'Min-ho Lee', 'KR'),
 (59, 'Sun-young Choi', 'KR'),
-(60, 'Gabriel Tremblay', 'CA');
+(60, 'Gabriel Tremblay', 'CA'),
+(61, 'Lakatos Brendon', 'HU'),
+(100, 's', 'AD'),
+(101, 'Baku', 'AD');
+
+-- --------------------------------------------------------
+
+--
+-- A nézet helyettes szerkezete `_finished_runners`
+-- (Lásd alább az aktuális nézetet)
+--
+CREATE TABLE `_finished_runners` (
+`id` int(11)
+,`runner_name` varchar(80)
+,`country_code` varchar(5)
+,`country_name` varchar(67)
+,`timespan` int(5)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Nézet szerkezete `_finished_runners`
+--
+DROP TABLE IF EXISTS `_finished_runners`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `_finished_runners`  AS SELECT `runners`.`id` AS `id`, `runners`.`name` AS `runner_name`, `runners`.`country_code` AS `country_code`, `countries`.`name` AS `country_name`, `results`.`timespan` AS `timespan` FROM ((`runners` join `results` on(`results`.`runner_id` = `runners`.`id`)) join `countries` on(`runners`.`country_code` = `countries`.`code`)) ORDER BY `results`.`timespan` ASC ;
 
 --
 -- Indexek a kiírt táblákhoz
