@@ -11,7 +11,7 @@ class Country {
 class CountryViewer {
     //TODO select
 
-    public function Select(): array
+    public function List(): array
     {
         OpenConnection();
         global $connection;
@@ -28,5 +28,22 @@ class CountryViewer {
 
         CloseConnection();
         return $runners;
+    }
+    public function Select(string $code): Country
+    {
+        OpenConnection();
+        global $connection;
+
+        $sql = "SELECT code, name FROM countries";
+        $result = $connection->query($sql);
+
+        $country = null;
+        if ($row = $result->fetch()) {
+            $code = $row["code"];
+            $name = $row["name"];
+            $country = new Country($code, $name);
+        }
+        CloseConnection();
+        return $country;
     }
 }

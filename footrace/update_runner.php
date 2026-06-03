@@ -1,6 +1,22 @@
 <?php include_once("countries/class.php");
 $country_viewer = new CountryViewer();
-$data = $country_viewer->List(); ?>
+$data = $country_viewer->List();
+
+$id = $_GET["id"];
+try {
+    $name = $_POST["name"];
+    $country_code = $_POST["country"];
+}
+catch (Exception $w) {
+    //TODO select + where
+    include_once("runners/class.php");
+    $runner_manager = new RunnerManager();
+    $runner = $runner_manager->Select($id);
+
+    $name = $runner->name;
+    $country_code = $runner->country_code;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="hu">
@@ -13,19 +29,19 @@ $data = $country_viewer->List(); ?>
     <form method="POST" action="runners/insert.php">
         <table><tbody>
             <tr>
-                <td><label>Mezszám:</label></td>
-                <td><input type="text" name="id"></td>
+                <td>Mezszám:</td>
+                <td><?=$id ?></td>
             </tr>
             <tr>
                 <td><label>Versenyző neve:</label></td>
-                <td><input type="text" name="name"></td>
+                <td><input type="text" name="name" value="<?=$name?>"></td>
             </tr>
             <tr>
                 <td><label>Származási ország:</label></td>
                 <td><select name="country">
                     <?php foreach($data as $country) { ?>
                         <option value="<?=$country->code?>"
-                            <?=$country->code === "US" ? "selected" : ""?>>
+                            <?=$country->code === $country_code ? "selected" : ""?>>
                             <?=$country->name?>
                         </option>
                     <?php } ?>

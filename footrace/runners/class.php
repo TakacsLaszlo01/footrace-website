@@ -1,33 +1,52 @@
 <?php
 include_once(__DIR__ . "/../connection.php");
 class Runner {
-    public $id, $name;
-    public function __construct(int $id, string $name) {
+    public $id, $name, $country_code;
+    public function __construct(int $id, string $name, string $country_code = "US") {
         $this->id = $id;
         $this->name = $name;
+        $this->country_code = $country_code;
     }
 }
 
 class RunnerManager {
     //TODO select, insert, update, delete, select+where
 
-    public function Select(): array
+    public function List(): array
     {
         OpenConnection();
         global $connection;
 
-        $sql = "SELECT id, name FROM runners";
+        $sql = "SELECT id, name, country_code FROM runners";
         $result = $connection->query($sql);
 
         $runners = [];
         while($row = $result->fetch()) {
             $id = $row["id"];
             $name = $row["name"];
-            array_push($runners, new Runner($id, $name));
+            $country_code = $row["country_code"];
+            array_push($runners, new Runner($id, $name, $country_code));
         }
 
         CloseConnection();
         return $runners;
+    }
+    public function Select(int $id): Runner
+    {
+        OpenConnection();
+        global $connection;
+
+        $sql = "SELECT id, name, country_code FROM runners";
+        $result = $connection->query($sql);
+
+        $runner = null;
+        if ($row = $result->fetch()) {
+            $name = $row["name"];
+            $country_code = $row["country_code"];
+            $runner = new Runner($id, $name, $country_code);
+        }
+        CloseConnection();
+        return $runner;
     }
     public function Insert(int $id, string $name, string $country_code = "US"): bool {
         OpenConnection();

@@ -1,6 +1,6 @@
 <?php include_once("runners/class.php");
 $manager = new RunnerManager();
-$data = $manager->Select(); ?>
+$data = $manager->List(); ?>
 
 <!DOCTYPE html>
 <html lang="hu">
@@ -14,6 +14,7 @@ $data = $manager->Select(); ?>
         <thead><tr>
             <th>Azonosító</th>
             <th>Versenyző neve</th>
+            <th>Országkód</th>
             <th colspan="2">Műveletek</th>
         </tr></thead>
         <tbody><?php foreach($data as $runner) {
@@ -21,11 +22,14 @@ $data = $manager->Select(); ?>
             <tr>
                 <td><?=$runner->id?></td>
                 <td><?=$runner->name?></td>
+                <td><?=$runner->country_code?></td>
                 <td><form method="POST" action="runners/delete.php">
                     <input type="hidden" name="id" value="<?=$runner->id ?>" />
                     <button>Törlés</button>
                 </form></td>
-                <td><form method="POST">
+                <td><form method="POST" action="update_runner.php?id=<?=$runner->id?>">
+                    <input type="hidden" name="name" value="<?=$runner->name ?>" />
+                    <input type="hidden" name="country" value="<?=$runner->country_code ?>" />
                     <button>Szerkesztés</button>
                 </form></td>
             </tr>
