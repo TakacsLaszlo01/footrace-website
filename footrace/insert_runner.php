@@ -1,4 +1,4 @@
-<?php include_once(__DIR__ . "/countries/class.php");
+<?php include_once("countries/class.php");
 $country_viewer = new CountryViewer();
 $data = $country_viewer->Select(); ?>
 
@@ -22,7 +22,7 @@ $data = $country_viewer->Select(); ?>
             </tr>
             <tr>
                 <td><label>Származási ország:</label></td>
-                <td><select name="country_code">
+                <td><select name="country">
                     <?php foreach($data as $country) { ?>
                         <option value="<?=$country->code?>">
                             <?=$country->name?>

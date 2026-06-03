@@ -45,4 +45,34 @@ class RunnerManager {
         CloseConnection();
         return $hasInserted;
     }
+
+    public function Update(int $id, string $name, string $country_code = "US"): bool {
+        OpenConnection();
+        global $connection;
+
+        $sql = "UPDATE runners SET name = :name, country_code = :country_code
+                WHERE id = :id";
+        $statement = $connection->prepare($sql);
+
+        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $statement->bindParam(":name", $name, PDO::PARAM_STR);
+        $statement->bindParam(":country_code", $country_code, PDO::PARAM_STR);
+        $hasUpdated = $statement->execute();
+
+        CloseConnection(); 
+        return $hasUpdated;
+    }
+    public function Delete(int $id): bool {
+        OpenConnection();
+        global $connection;
+
+        $sql = "DELETE FROM runners WHERE id = :id";
+        $statement = $connection->prepare($sql);
+
+        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $hasDeleted = $statement->execute();
+
+        CloseConnection();
+        return $hasDeleted;
+    }
 }

@@ -1,5 +1,5 @@
 <?php include_once("class.php");
 $manager = new RunnerManager();
-$manager->Insert($_POST["id"], $_POST["name"], $_POST["country"]);
+$manager->Delete($_POST["id"]);
 
 header("Location: ../index.php");
